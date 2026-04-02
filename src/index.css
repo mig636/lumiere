@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  
+  --color-rosegold: #B76E79;
+  --color-rosegold-light: #E5B3BB;
+  --color-rosegold-dark: #8E4E58;
+  --color-cream: #FAF9F6;
+  --color-onyx: #1A1A1A;
+}
+
+@layer base {
+  body {
+    @apply bg-cream text-onyx font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+.text-gradient-rosegold {
+  @apply bg-clip-text text-transparent bg-linear-to-r from-rosegold-dark via-rosegold to-rosegold-light;
+}
+
+.bg-rosegold-gradient {
+  @apply bg-linear-to-r from-rosegold-dark via-rosegold to-rosegold-light;
+}
+
+.border-rosegold {
+  @apply border-rosegold/30;
+}
+
+/* Hover effects only for devices that support it (PC/Mouse) */
+@media (hover: hover) {
+  .card-hover {
+    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rosegold/10;
+  }
+  
+  .group:hover .group-hover-scale {
+    @apply scale-110;
+  }
+}
+
+/* Touch feedback for all devices */
+.active-press {
+  @apply active:scale-95 transition-transform duration-150;
+}
+
+.touch-target {
+  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+}
