@@ -1,55 +1,432 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
-  
-  --color-rosegold: #B76E79;
-  --color-rosegold-light: #E5B3BB;
-  --color-rosegold-dark: #8E4E58;
-  --color-cream: #FAF9F6;
-  --color-onyx: #1A1A1A;
+  --font-sans: "MS Sans Serif", "Tahoma", "Microsoft Sans Serif", Arial, sans-serif;
+  --font-serif: "MS Sans Serif", "Tahoma", Arial, sans-serif;
+
+  --color-win-bg: #D4D0C8;
+  --color-win-blue: #0A246A;
+  --color-win-blue-light: #1C3D8C;
+  --color-win-titlebar: #0A246A;
+  --color-win-titlebar-end: #A6CAF0;
+  --color-win-white: #FFFFFF;
+  --color-win-dark: #000000;
+  --color-win-gray: #808080;
+  --color-win-silver: #C0C0C0;
+  --color-win-shadow: #404040;
+  --color-win-highlight: #FFFFFF;
+  --color-win-face: #D4D0C8;
+  --color-win-teal: #008080;
+  --color-win-red: #C0392B;
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
   body {
-    @apply bg-cream text-onyx font-sans antialiased;
+    background-color: #008080;
+    font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+    font-size: 11px;
+    color: #000000;
+    cursor: default;
+    margin: 0;
+    padding: 0;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+    font-weight: bold;
   }
 }
 
-.text-gradient-rosegold {
-  @apply bg-clip-text text-transparent bg-linear-to-r from-rosegold-dark via-rosegold to-rosegold-light;
+/* === WIN2K CORE PRIMITIVES === */
+
+/* Raised/sunken 3D bevel */
+.win-raised {
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  background-color: #D4D0C8;
 }
 
-.bg-rosegold-gradient {
-  @apply bg-linear-to-r from-rosegold-dark via-rosegold to-rosegold-light;
+.win-sunken {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+  background-color: #FFFFFF;
 }
 
-.border-rosegold {
-  @apply border-rosegold/30;
+.win-raised-light {
+  border-top: 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  background-color: #D4D0C8;
 }
 
-/* Hover effects only for devices that support it (PC/Mouse) */
-@media (hover: hover) {
-  .card-hover {
-    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rosegold/10;
-  }
-  
-  .group:hover .group-hover-scale {
-    @apply scale-110;
-  }
+/* Window */
+.win-window {
+  background-color: #D4D0C8;
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
 }
 
-/* Touch feedback for all devices */
-.active-press {
-  @apply active:scale-95 transition-transform duration-150;
+/* Title bar gradient */
+.win-titlebar {
+  background: linear-gradient(to right, #0A246A, #A6CAF0);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 3px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
 }
 
-.touch-target {
-  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+/* Window control buttons (X, _, []) */
+.win-ctrl-btn {
+  width: 16px;
+  height: 14px;
+  background-color: #D4D0C8;
+  border-top: 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: bold;
+  color: #000000;
+  cursor: pointer;
+  margin-left: 2px;
+  line-height: 1;
+}
+
+.win-ctrl-btn:active {
+  border-top: 1px solid #404040;
+  border-left: 1px solid #404040;
+  border-right: 1px solid #FFFFFF;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.win-ctrl-btn.close:hover {
+  background-color: #C0392B;
+  color: #FFFFFF;
+}
+
+/* Standard button */
+.win-btn {
+  background-color: #D4D0C8;
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  padding: 4px 12px;
+  font-family: "Tahoma", Arial, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  color: #000000;
+  text-align: center;
+  min-width: 75px;
+  user-select: none;
+}
+
+.win-btn:hover {
+  background-color: #E4E0D8;
+}
+
+.win-btn:active,
+.win-btn.pressed {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+  padding: 5px 11px 3px 13px;
+}
+
+.win-btn-default {
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  box-shadow: inset 1px 1px 0 #FFFFFF, inset -1px -1px 0 #808080;
+}
+
+/* Text input */
+.win-input {
+  background-color: #FFFFFF;
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #DFDFDF;
+  border-bottom: 1px solid #DFDFDF;
+  padding: 2px 4px;
+  font-family: "Tahoma", Arial, sans-serif;
+  font-size: 11px;
+  color: #000000;
+  outline: none;
+}
+
+.win-input:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -2px;
+}
+
+/* Menu bar */
+.win-menubar {
+  background-color: #D4D0C8;
+  border-bottom: 1px solid #808080;
+  display: flex;
+  align-items: stretch;
+  padding: 0 2px;
+  font-size: 11px;
+}
+
+.win-menu-item {
+  padding: 3px 8px;
+  cursor: default;
+  user-select: none;
+}
+
+.win-menu-item:hover {
+  background-color: #0A246A;
+  color: #FFFFFF;
+}
+
+/* Status bar */
+.win-statusbar {
+  background-color: #D4D0C8;
+  border-top: 1px solid #808080;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  font-size: 10px;
+}
+
+.win-status-panel {
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #FFFFFF;
+  border-bottom: 1px solid #FFFFFF;
+  padding: 1px 6px;
+  margin-right: 4px;
+}
+
+/* Separator */
+.win-separator {
+  border: none;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #FFFFFF;
+  margin: 4px 2px;
+}
+
+/* Service card like a listbox item */
+.win-listitem:hover {
+  background-color: #0A246A;
+  color: #FFFFFF;
+}
+
+.win-listitem:hover .win-listitem-price {
+  color: #A6CAF0;
+}
+
+/* Tab strip */
+.win-tab {
+  background-color: #C8C4BC;
+  border-top: 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #808080;
+  border-bottom: none;
+  padding: 3px 12px 4px;
+  font-size: 11px;
+  cursor: pointer;
+  position: relative;
+  top: 1px;
+  user-select: none;
+}
+
+.win-tab.active {
+  background-color: #D4D0C8;
+  z-index: 1;
+  font-weight: bold;
+  border-bottom: 1px solid #D4D0C8;
+}
+
+/* Scrollbar style hint */
+.win-scroll::-webkit-scrollbar {
+  width: 16px;
+}
+
+.win-scroll::-webkit-scrollbar-track {
+  background: #C8C4BC;
+  border: 1px solid #808080;
+}
+
+.win-scroll::-webkit-scrollbar-thumb {
+  background: #D4D0C8;
+  border-top: 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+}
+
+/* Taskbar */
+.win-taskbar {
+  background-color: #D4D0C8;
+  border-top: 2px solid #FFFFFF;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  gap: 4px;
+}
+
+/* Start button */
+.win-start-btn {
+  background-color: #D4D0C8;
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  padding: 2px 8px;
+  font-weight: bold;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  height: 22px;
+}
+
+.win-start-btn:active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+}
+
+/* Groupbox frame */
+.win-groupbox {
+  border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 #FFFFFF;
+  padding: 12px 8px 8px;
+  position: relative;
+  margin-top: 8px;
+}
+
+.win-groupbox-label {
+  position: absolute;
+  top: -7px;
+  left: 8px;
+  background-color: #D4D0C8;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Progress bar */
+@keyframes progress-march {
+  from { background-position: 0 0; }
+  to { background-position: 24px 0; }
+}
+
+.win-progress-bar {
+  height: 14px;
+  background-color: #0A246A;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(255,255,255,0.15) 4px,
+    rgba(255,255,255,0.15) 8px
+  );
+  animation: progress-march 0.5s linear infinite;
+}
+
+/* Icon button (toolbar) */
+.win-toolbtn {
+  width: 24px;
+  height: 22px;
+  background: transparent;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.win-toolbtn:hover {
+  border-top: 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  background-color: #D4D0C8;
+}
+
+.win-toolbtn:active {
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #FFFFFF;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.win-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Desktop icons */
+.win-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  cursor: pointer;
+  user-select: none;
+  width: 72px;
+  text-align: center;
+  font-size: 11px;
+  color: #FFFFFF;
+}
+
+.win-desktop-icon:hover .win-icon-label {
+  background-color: #0A246A;
+}
+
+.win-icon-label {
+  padding: 1px 3px;
+  font-size: 11px;
+  text-shadow: 1px 1px 1px #000000;
+}
+
+/* Dotted focus outline */
+.win-focus {
+  outline: 1px dotted #000000;
+  outline-offset: -3px;
+}
+
+/* Marquee strip (for retro feel) */
+@keyframes win-marquee {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+.win-marquee {
+  animation: win-marquee 18s linear infinite;
+  white-space: nowrap;
 }
